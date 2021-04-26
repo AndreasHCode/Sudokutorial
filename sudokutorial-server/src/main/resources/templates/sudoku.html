@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<script
+  src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script
+  src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="/js/lib/bootstrap.bundle.min.js"></script>
+<link href="/css/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/css/sudoku.css" rel="stylesheet">
+<meta charset="utf-8">
+</head>
+<body oncontextmenu="return false;">
+
+<div id="navigationFragment"
+  th:insert="fragments :: navigationFragment"></div>
+
+<div ng-app="sudokuApp" ng-controller="sudokuController" id="sudokuApp">
+  
+  <div id="fader" ng-click="removeFade()"></div>
+  
+  <h1 sec:authorize="isAuthenticated()" class="helloHead" th:text="'Hello ' + ${playerName}">
+  </h1>
+  
+  <h1 sec:authorize="!isAuthenticated()" class="helloHead">
+    Hello Puzzler!
+  </h1>
+  
+  <div id="options-menu">
+    <div class="container options-container" ng-mousedown="optionMouseDown($event)" ng-mouseup="optionMouseUp($event)" ng-click="selectOption($event)" ng-dblclick="makeEntry($event)">
+      <div class="row options-row">
+        <div class="col-4 option-choice" id="option-1">1</div>
+        <div class="col-4 option-choice" id="option-2">2</div>
+        <div class="col-4 option-choice" id="option-3">3</div>
+      </div>
+      <div class="row options-row">
+        <div class="col-4 option-choice" id="option-4">4</div>
+        <div class="col-4 option-choice" id="option-5">5</div>
+        <div class="col-4 option-choice" id="option-6">6</div>
+      </div>
+      <div class="row options-row">
+        <div class="col-4 option-choice" id="option-7">7</div>
+        <div class="col-4 option-choice" id="option-8">8</div>
+        <div class="col-4 option-choice" id="option-9">9</div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="tooltip">
+    Add here!
+  </div>
+  
+  <div class="container rule-buttons" ng-show="helpEnabled">
+    <div class="row justify-content-md-center">
+      <div class="grid-difficulty-{{difficulty}}" ng-repeat="rule in rules | filter: showRuleButton" >
+       <button class="rule-button" ng-click="applyRule(rule, $event)" ng-right-click="applyRule(rule, $event)" ng-mouseenter="showTooltip(rule, $event)" id="{{rule}}-rule-button" ng-mouseleave="hideTooltip()">{{ruleStepsMap[rule].length}}</button>
+      </div>
+    </div>
+  </div>
+  
+  <div id="sudokuGrid" class="container">
+    <div class="row grid-row" ng-repeat="row in arrayGrid">
+      <div class="grid-column" ng-repeat="cell in row">
+        <div class="cell" id="cell-{{cell.column}}-{{cell.row}}"
+          ng-click="selectCell($event)">
+
+            <div ng-if="cell.number != 0" class="cell-number" ng-class="cell.startingCell ? 'starting-cell' : ''"
+              id="cell-number-{{cell.column}}-{{cell.row}}-{{cell.number}}">{{cell.number}}</div>
+
+            <div ng-if="cell.number == 0" class="container">
+            <div class="row">
+              <div class="cell-entry"
+                id="cell-entry-{{cell.column}}-{{cell.row}}-1">{{cell.entries.includes(1) ? cell.entries[cell.entries.indexOf(1)] : ""}}</div>
+              <div class="cell-entry"
+                id="cell-entry-{{cell.column}}-{{cell.row}}-2">{{cell.entries.includes(2) ? cell.entries[cell.entries.indexOf(2)] : ""}}</div>
+              <div class="cell-entry"
+                id="cell-entry-{{cell.column}}-{{cell.row}}-3">{{cell.entries.includes(3) ? cell.entries[cell.entries.indexOf(3)] : ""}}</div>
+            </div>
+            <div class="row">
+              <div class="cell-entry"
+                id="cell-entry-{{cell.column}}-{{cell.row}}-4">{{cell.entries.includes(4) ? cell.entries[cell.entries.indexOf(4)] : ""}}</div>
+              <div class="cell-entry"
+                id="cell-entry-{{cell.column}}-{{cell.row}}-5">{{cell.entries.includes(5) ? cell.entries[cell.entries.indexOf(5)] : ""}}</div>
+              <div class="cell-entry"
+                id="cell-entry-{{cell.column}}-{{cell.row}}-6">{{cell.entries.includes(6) ? cell.entries[cell.entries.indexOf(6)] : ""}}</div>
+            </div>
+            <div class="row">
+              <div class="cell-entry"
+                id="cell-entry-{{cell.column}}-{{cell.row}}-7">{{cell.entries.includes(7) ? cell.entries[cell.entries.indexOf(7)] : ""}}</div>
+              <div class="cell-entry"
+                id="cell-entry-{{cell.column}}-{{cell.row}}-8">{{cell.entries.includes(8) ? cell.entries[cell.entries.indexOf(8)] : ""}}</div>
+              <div class="cell-entry"
+                id="cell-entry-{{cell.column}}-{{cell.row}}-9">{{cell.entries.includes(9) ? cell.entries[cell.entries.indexOf(9)] : ""}}</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container options">
+    <div class="row">
+      <button ng-click="getGrid()">Get New Grid</button>
+      <button ng-click="makeEntries()" id="makeEntriesButton">Make Entries</button>
+      <button ng-click="getSolution()" ng-show="helpEnabled">Solve Grid</button>
+      <button ng-click="saveGrid()" sec:authorize="isAuthenticated()">Save Grid</button>
+      <div>
+        <input type="checkbox" ng-model="solve"/><span ng-show="solve">Applying Rule</span><span ng-show="!solve">Showing Rule</span>
+      </div>
+      <div>
+        <input type="checkbox" ng-model="helpEnabled"/><span>Enable Help</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/sudokuController.js"></script>
+
+</body>
+</html>

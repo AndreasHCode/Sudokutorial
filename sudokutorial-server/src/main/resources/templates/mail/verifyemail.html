@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<p>Thank you for signing up</p>
+
+<p>To complete your registration click <a th:href="@{${url} + '/confirmregistration?t=' + ${token}}">here</a> to verify your Email address.</p>
+</html>

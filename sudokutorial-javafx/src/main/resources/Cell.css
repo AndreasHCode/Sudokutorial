@@ -1,0 +1,69 @@
+.label {
+    -fx-font-size: 22px;
+    -fx-background-color: #F0F8FF;
+}
+
+.entry {
+	-fx-background-color: transparent;
+}
+
+.initial-entry {
+	-fx-text-fill: #181;
+}
+
+.entry-pane {
+	-fx-border-width: 1px;
+	-fx-border-color: black;
+}
+
+.hover {
+	-fx-background-color: #ADD8E6;
+}
+
+.hover-text {
+	-fx-text-fill: blue;
+}
+
+.adjacent-hover {
+	-fx-background-color: #CFFCFC;
+}
+
+.segment {
+	-fx-border-color: black;
+}
+
+.entry-option {
+	-fx-font-size: 12px;
+	-fx-border-width: 1px;
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+}
+
+.entry-option:hover {
+	-fx-text-fill: blue;
+}
+
+.button:hover {
+	-fx-border-style: dashed;
+}
+
+.wrong-entry {
+	-fx-border-width: 2px;
+	-fx-border-color: red;
+}
+
+.rule-label {
+	-fx-font-size: 20px;
+	-fx-border-width: 2px;
+	-fx-border-color: grey;
+	-fx-border-radius: 2px;
+}
+
+.exclude-reason {
+	-fx-background-color: #AAF;
+}
+
+.exclude-entry {
+	-fx-border-color: #030;
+	-fx-border-radius: 5px;
+}

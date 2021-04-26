@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<script
+  src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script
+  src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="/js/lib/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="./css/main.css">
+<link href="/css/lib/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div th:insert="fragments :: navigationFragment"></div>
+
+<div class="container">
+  <h1 id="indexTitle">Sudokutorial</h1>
+</div>
+
+<div class="container" ng-app="indexApp" ng-controller="indexController">
+  <div class="row">
+    <div class="card-group">
+      <div class="card selection-card">
+        <img class="card-img-top" draggable="false" ng-src="./img/tutorial_grid.PNG" ng-click="startTutorial()" alt="sudoku image tutorial">
+        <div class="card-body">
+          <h5 class="card-title">Start Tutorial</h5>
+          <p class="card-text">Start a new Grid with the Tutorial feature enabled showing every rule
+          and it's application step by step.</p>
+        </div>
+      </div>
+      <div class="card selection-card">
+        <img class="card-img-top" draggable="false" ng-src="./img/sample_grid.PNG" ng-click="startNewGrid(difficulty || 1)" alt="sudoku image sample">
+        <div class="card-body">
+          <h5 class="card-title">Start a new Sudokugrid</h5>
+          <p class="card-text">Start a new Sudokugrid using the selected difficulty <span>{{difficulty || 1}}</span> </p>
+          <form>
+            Select the difficulty
+            <select ng-model="difficulty">
+              <option value="">One
+              <option value="2">Two
+              <option value="3">Three
+              <option value="4">Four
+              <option value="5">Five
+            </select>
+          </form>
+        </div>
+      </div>
+      <div class="card selection-card">
+        <div class="darkened" sec:authorize="!isAuthenticated()">
+          <div class="login-warning">
+            Not logged in
+          </div>
+        </div>
+        <img class="card-img-top" draggable="false" ng-src="./img/saved_grid.PNG" ng-click="continueSavedGrid()" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">Continue last Sudokugrid</h5>
+          <p class="card-text">Continue the last saved Sudokugrid. Must be logged in and saved at least one Sudokugrid.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/indexController.js"></script>
+
+</body>
+</html>

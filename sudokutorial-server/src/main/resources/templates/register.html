@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org">
+<head>
+<script
+  src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script
+  src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="/js/lib/bootstrap.bundle.min.js"></script>
+<link href="/css/lib/bootstrap.min.css" rel="stylesheet">
+<link href="/css/main.css" rel="stylesheet">
+</head>
+
+<div th:insert="fragments :: navigationFragment"></div>
+
+<div ng-app="registerApp" ng-controller="registerController" class="row"
+  id="register-card">
+  <div class="col-lg-5 col-md-6 col-sm-8 mx-auto">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title text-center">Register a new account</h5>
+        <form name="registerForm" ng-submit="registerUser()">
+
+          <div class="row">
+            <div class="form-group col">
+              <label for="first-name">First Name</label> <input
+                type="text" ng-model="firstname" class="form-control"
+                id="first-name" autocomplete="first-name"
+                aria-describedby="firstname">
+            </div>
+            <div class="form-group col">
+              <label for="last-name">Last Name</label> <input
+                type="text" ng-model="lastname" class="form-control"
+                id="last-name" autocomplete="last-name"
+                aria-describedby="lastname">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email-address">Email Address</label> <input
+              type="email" name="email" ng-model="email"
+              class="form-control" id="email-address"
+              autocomplete="email-address" aria-describedby="emailHelp"
+              ng-class="(registerForm.email.$dirty && !registerForm.email.$valid) ? 'invalid-box' : ''"
+              placeholder="example@mail.com"> <small
+              id="emailHelp" class="form-text text-muted">We'll
+              never share your email with anyone else.</small>
+          </div>
+          <div class="form-group" id="passowrd-div">
+            <div>
+              <label for="input-password">Password</label> <span
+                class="float-right invalid-warning"
+                ng-show="registerForm.inputPassword.$dirty && !valid">Invalid
+                Password</span>
+            </div>
+            <input type="password" class="form-control"
+              name="inputPassword" ng-model="inputPassword"
+              ng-keyup="checkValidity()" id="input-password"
+              autocomplete="new-password" placeholder="Password"
+              ng-class="(registerForm.inputPassword.$dirty && !valid) ? 'invalid-box' : ''">
+          </div>
+          <div class="strength-meter">
+            <div class="meter-fill" ng-class="meterValue + '-bar'"></div>
+          </div>
+          <div class="form-group">
+            <div>
+              <label for="confirm-password">Confirm
+                Password</label> <span class="float-right invalid-warning"
+                ng-show="(registerForm.inputPassword.$dirty || registerForm.confirmPassword.$dirty) && !validRepeat">Repeat
+                Password</span>
+            </div>
+            <input type="password" class="form-control"
+              name="confirmPassword" ng-model="confirmPassword"
+              id="confirm-password" ng-keyup="checkRepeat()"
+              autocomplete="confirm-password"
+              placeholder="Repeat Password"
+              ng-class="((registerForm.inputPassword.$dirty || registerForm.confirmPassword.$dirty) && !validRepeat) ? 'invalid-box' : ''">
+          </div>
+
+          <button type="submit" class="btn btn-primary">Register</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/registerController.js"></script>
+
+</body>
+</html>
