@@ -25,4 +25,8 @@ Currently used rules:
    - [x] Jellyfish
    - [x] Remote Pairs
    - [x] Unique Rectangle
+
+TODO: 
+   - Step by Step explanation of rules
+   - Update UI
   
