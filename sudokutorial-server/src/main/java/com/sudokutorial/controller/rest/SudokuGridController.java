@@ -1,7 +1,10 @@
 package com.sudokutorial.controller.rest;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -125,8 +128,13 @@ public class SudokuGridController {
 			String email = auth.getName();
 			Player player = playerService.getPlayerByEmail(email);
 			List<PlayedGrid> playedGrids = playedGridService.getPlayersGrids(player);
+			if (playedGrids.isEmpty()) {
+				sudokuGrid = new SudokuGrid();
+				GridHelper.generateGrid(sudokuGrid, Difficulty.ONE);
+				
+				return sudokuGrid;
+			}
 			playedGrid = playedGrids.get(playedGrids.size() - 1);
-			
 			String[] stringGrids = new String[2];
 			stringGrids[0] = playedGrid.getBaseGrid().getStringGrid();
 			stringGrids[1] = playedGrid.getStringGrid();
