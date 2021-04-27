@@ -24,13 +24,13 @@ public class GridSolver {
 			boolean removedEntries = entriesCountStart != currentEntries;
 
 			// Try Easy
-			checkExcludeEntries(sudokuGrid, emptyCells);
+			checkExcludeEntries(sudokuGrid, emptyCells, false);
 			currentEntries = sudokuGrid.getEntriesCount();
 			removedEntries = entriesCountStart != currentEntries;
 
 			// Try Medium
 			if (!removedEntries && difficulty.ordinal() > 0) {
-				checkUniqueEntry(sudokuGrid, emptyCells);
+				checkUniqueEntry(sudokuGrid, emptyCells, false);
 				currentEntries = sudokuGrid.getEntriesCount();
 				removedEntries = entriesCountStart != currentEntries;
 				if (removedEntries) {
@@ -42,7 +42,7 @@ public class GridSolver {
 
 			// Try Hard 1
 			if (!removedEntries && difficulty.ordinal() > 1) {
-				checkUniqueRowColumn(sudokuGrid, emptyCells);
+				checkUniqueRowColumn(sudokuGrid, emptyCells, false);
 				currentEntries = sudokuGrid.getEntriesCount();
 				removedEntries = entriesCountStart != currentEntries;
 				if (removedEntries) {
@@ -54,7 +54,7 @@ public class GridSolver {
 
 			// Try Hard 2
 			if (!removedEntries && difficulty.ordinal() > 2) {
-				checkEntryCombinations(sudokuGrid, emptyCells);
+				checkEntryCombinations(sudokuGrid, emptyCells, false);
 				currentEntries = sudokuGrid.getEntriesCount();
 				removedEntries = entriesCountStart != currentEntries;
 				if (removedEntries) {
@@ -66,9 +66,9 @@ public class GridSolver {
 
 			// Try Small Fishes
 			if (!removedEntries && difficulty.ordinal() > 3) {
-				checkSmallFish(sudokuGrid, emptyCells, 2);
-				checkSmallFish(sudokuGrid, emptyCells, 3);
-				checkSmallFish(sudokuGrid, emptyCells, 4);
+				checkSmallFish(sudokuGrid, emptyCells, 2, false);
+				checkSmallFish(sudokuGrid, emptyCells, 3, false);
+				checkSmallFish(sudokuGrid, emptyCells, 4, false);
 				currentEntries = sudokuGrid.getEntriesCount();
 				removedEntries = entriesCountStart != currentEntries;
 				if (removedEntries) {
@@ -80,7 +80,7 @@ public class GridSolver {
 
 			// Try Remote Pairs
 			if (!removedEntries && difficulty.ordinal() > 3) {
-				checkRemotePairs(sudokuGrid, emptyCells);
+				checkRemotePairs(sudokuGrid, emptyCells, false);
 				currentEntries = sudokuGrid.getEntriesCount();
 				removedEntries = entriesCountStart != currentEntries;
 				if (removedEntries) {
@@ -91,16 +91,16 @@ public class GridSolver {
 			}
 
 			// Try Unique Rectangle
-			if (!removedEntries && difficulty.ordinal() > 3) {
-				checkUniqueRectangle(sudokuGrid, emptyCells);
-				currentEntries = sudokuGrid.getEntriesCount();
-				removedEntries = entriesCountStart != currentEntries;
-				if (removedEntries) {
-					if (sudokuGrid.getDifficulty().ordinal() < 4) {
-						sudokuGrid.setDifficulty(Difficulty.FIVE);
-					}
-				}
-			}
+//			if (!removedEntries && difficulty.ordinal() > 3) {
+//				checkUniqueRectangle(sudokuGrid, emptyCells, false);
+//				currentEntries = sudokuGrid.getEntriesCount();
+//				removedEntries = entriesCountStart != currentEntries;
+//				if (removedEntries) {
+//					if (sudokuGrid.getDifficulty().ordinal() < 4) {
+//						sudokuGrid.setDifficulty(Difficulty.FIVE);
+//					}
+//				}
+//			}
 
 			makeEntries(emptyCells);
 			emptyCells = getEmptyCells(sudokuGrid);
@@ -122,7 +122,7 @@ public class GridSolver {
 	}
 
 	public static void checkExcludeEntries(SudokuGrid sudokuGrid,
-			List<Cell> emptyCells) {
+			List<Cell> emptyCells, boolean singleStep) {
 		Cell[][] arrayGrid = sudokuGrid.getArrayGrid();
 		List<List<Cell>> segmentGrid = sudokuGrid.getSegmentGrid();
 		List<SolutionStep> solutionSteps = sudokuGrid.getSolutionSteps();
@@ -167,7 +167,7 @@ public class GridSolver {
 	}
 
 	public static void checkUniqueEntry(SudokuGrid sudokuGrid,
-			List<Cell> emptyCells) {
+			List<Cell> emptyCells, boolean singleStep) {
 		Cell[][] arrayGrid = sudokuGrid.getArrayGrid();
 		List<List<Cell>> segmentGrid = sudokuGrid.getSegmentGrid();
 		List<SolutionStep> solutionSteps = sudokuGrid.getSolutionSteps();
@@ -261,7 +261,7 @@ public class GridSolver {
 	}
 
 	public static void checkUniqueRowColumn(SudokuGrid sudokuGrid,
-			List<Cell> emptyCells) {
+			List<Cell> emptyCells, boolean singleStep) {
 		List<Cell> emptyCellsInSegment = new ArrayList<>();
 		List<SolutionStep> solutionSteps = sudokuGrid.getSolutionSteps();
 		Set<Integer> possibleEntries = new HashSet<>();
@@ -336,7 +336,7 @@ public class GridSolver {
 	}
 
 	public static void checkEntryCombinations(SudokuGrid sudokuGrid,
-			List<Cell> emptyCells) {
+			List<Cell> emptyCells, boolean singleStep) {
 		List<Cell> emptyCellsInRow = new ArrayList<>();
 		List<Cell> emptyCellsInColumn = new ArrayList<>();
 		List<Cell> emptyCellsInSegment = new ArrayList<>();
@@ -414,7 +414,7 @@ public class GridSolver {
 	}
 
 	public static void checkSmallFish(SudokuGrid sudokuGrid,
-			List<Cell> emptyCells, int size) {
+			List<Cell> emptyCells, int size, boolean singleStep) {
 		List<Cell> emptyCellsInRow = new ArrayList<>();
 		List<Cell> emptyCellsInColumn = new ArrayList<>();
 		List<Cell> xRow = new ArrayList<>();
@@ -558,7 +558,7 @@ public class GridSolver {
 	}
 
 	public static void checkRemotePairs(SudokuGrid sudokuGrid,
-			List<Cell> emptyCells) {
+			List<Cell> emptyCells, boolean singleStep) {
 		List<Cell> pairs = new ArrayList<>();
 
 		for (Cell aCell : emptyCells) {
@@ -664,7 +664,7 @@ public class GridSolver {
 	}
 
 	public static void checkUniqueRectangle(SudokuGrid sudokuGrid,
-			List<Cell> emptyCells) {
+			List<Cell> emptyCells, boolean singleStep) {
 		List<Cell> pairs = new ArrayList<>();
 
 		for (Cell aCell : emptyCells) {
@@ -920,27 +920,27 @@ public class GridSolver {
 		return false;
 	}
 
-	public static void applyRule(SudokuGrid sudokuGrid, RuleType ruleType) {
+	public static void applyRule(SudokuGrid sudokuGrid, RuleType ruleType, boolean singleStep) {
 		List<Cell> emptyCells = getEmptyCells(sudokuGrid);
 
 		if (ruleType == RuleType.EXCLUDE_ENTRIES) {
-			checkExcludeEntries(sudokuGrid, emptyCells);
+			checkExcludeEntries(sudokuGrid, emptyCells, singleStep);
 		} else if (ruleType == RuleType.UNIQUE_ENTRY) {
-			checkUniqueEntry(sudokuGrid, emptyCells);
+			checkUniqueEntry(sudokuGrid, emptyCells, singleStep);
 		} else if (ruleType == RuleType.UNIQUE_ROW_COLUMN) {
-			checkUniqueRowColumn(sudokuGrid, emptyCells);
+			checkUniqueRowColumn(sudokuGrid, emptyCells, singleStep);
 		} else if (ruleType == RuleType.ENTRY_COMBINATION) {
-			checkEntryCombinations(sudokuGrid, emptyCells);
+			checkEntryCombinations(sudokuGrid, emptyCells, singleStep);
 		} else if (ruleType == RuleType.X_WING) {
-			checkSmallFish(sudokuGrid, emptyCells, 2);
+			checkSmallFish(sudokuGrid, emptyCells, 2, singleStep);
 		} else if (ruleType == RuleType.SWORDFISH) {
-			checkSmallFish(sudokuGrid, emptyCells, 3);
+			checkSmallFish(sudokuGrid, emptyCells, 3, singleStep);
 		} else if (ruleType == RuleType.JELLYFISH) {
-			checkSmallFish(sudokuGrid, emptyCells, 4);
+			checkSmallFish(sudokuGrid, emptyCells, 4, singleStep);
 		} else if (ruleType == RuleType.REMOTE_PAIRS) {
-			checkRemotePairs(sudokuGrid, emptyCells);
+			checkRemotePairs(sudokuGrid, emptyCells, singleStep);
 		} else if (ruleType == RuleType.UNIQUE_RECTANGLE) {
-			checkUniqueRectangle(sudokuGrid, emptyCells);
+			checkUniqueRectangle(sudokuGrid, emptyCells, singleStep);
 		}
 	}
 	
@@ -952,7 +952,7 @@ public class GridSolver {
 
 			SudokuGrid copiedGrid = sudokuGrid.cloneSudokuGrid();
 			copiedGrid.setSolutionSteps(new ArrayList<>());
-			GridSolver.applyRule(copiedGrid, ruleType);
+			GridSolver.applyRule(copiedGrid, ruleType, false);
 			
 			map.put(RuleType.getAsString(ruleType), copiedGrid.getSolutionSteps());
 		}

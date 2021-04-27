@@ -97,7 +97,7 @@ public class GridHelper {
 				possibleGrid.get(randomLeastPossibleEntries).get(0)
 						.setNumber(actualEntry);
 				GridSolver.checkExcludeEntries(sudokuGrid,
-						GridSolver.getEmptyCells(sudokuGrid));
+						GridSolver.getEmptyCells(sudokuGrid), false);
 			}
 		}
 		if (sudokuGrid.getZeroesCount() == 0) {

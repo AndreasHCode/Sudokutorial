@@ -69,7 +69,7 @@ public class SudokuGridController {
 	public SudokuGrid postApplyRule(@RequestBody SudokuGrid sudokuGridBack, @PathVariable("ruleType") String ruleType) {
 		SudokuGrid cleanedGrid = sudokuGridBack.cloneSudokuGrid();
 		RuleType appliedRule = RuleType.getFromString(ruleType);
-		GridSolver.applyRule(cleanedGrid, appliedRule);
+		GridSolver.applyRule(cleanedGrid, appliedRule, true);
 		
 		return cleanedGrid;
 	}
