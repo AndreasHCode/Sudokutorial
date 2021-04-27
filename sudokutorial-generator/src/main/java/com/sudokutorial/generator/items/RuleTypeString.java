@@ -9,7 +9,7 @@ public enum RuleTypeString {
 	findXWing, 
 	findSwordfish, 
 	findJellyfish, 
-	findRemotePairs, 
-	findUniqueRectangle;
+	findRemotePairs; 
+//	findUniqueRectangle;
 
 }

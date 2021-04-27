@@ -9,8 +9,8 @@ public enum RuleType {
 	X_WING, 
 	SWORDFISH, 
 	JELLYFISH, 
-	REMOTE_PAIRS, 
-	UNIQUE_RECTANGLE;
+	REMOTE_PAIRS; 
+//	UNIQUE_RECTANGLE;
 
 	public static RuleType getFromString(String stringRule) {
 		if (stringRule.equals("removeOptions")) {
@@ -29,8 +29,8 @@ public enum RuleType {
 			return JELLYFISH;
 		} else if (stringRule.equals("findRemotePairs")) {
 			return REMOTE_PAIRS;
-		} else if (stringRule.equals("findUniqueRectangle")) {
-			return UNIQUE_RECTANGLE;
+//		} else if (stringRule.equals("findUniqueRectangle")) {
+//			return UNIQUE_RECTANGLE;
 		}
 		
 		return EXCLUDE_ENTRIES;
@@ -53,8 +53,8 @@ public enum RuleType {
 			return "findJellyfish";
 		} else if (ruleType == REMOTE_PAIRS) {
 			return "findRemotePairs";
-		} else if (ruleType == UNIQUE_RECTANGLE) {
-			return "findUniqueRectangle";
+//		} else if (ruleType == UNIQUE_RECTANGLE) {
+//			return "findUniqueRectangle";
 		}
 		
 		return "removeOtions";

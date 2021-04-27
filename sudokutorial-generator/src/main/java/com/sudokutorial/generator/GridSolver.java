@@ -663,182 +663,182 @@ public class GridSolver {
 		}
 	}
 
-	public static void checkUniqueRectangle(SudokuGrid sudokuGrid,
-			List<Cell> emptyCells, boolean singleStep) {
-		List<Cell> pairs = new ArrayList<>();
-
-		for (Cell aCell : emptyCells) {
-			if (aCell.getEntries().size() == 2) {
-				pairs.add(aCell);
-			}
-		}
-
-		while (pairs.size() != 0) {
-			List<Cell> uniquePairs = new ArrayList<>();
-			uniquePairs.add(pairs.remove(0));
-			Set<Integer> entriesOne = uniquePairs.get(0).getEntries();
-
-			for (int i = 0; i < pairs.size(); i++) {
-				Set<Integer> entriesTwo = pairs.get(i).getEntries();
-
-				if (entriesOne.containsAll(entriesTwo)) {
-					uniquePairs.add(pairs.remove(i));
-					i--;
-				}
-			}
-
-			for (int i = 0; i < uniquePairs.size(); i++) {
-				Cell cellOne = uniquePairs.get(i);
-
-				for (int j = i + 1; j < uniquePairs.size(); j++) {
-					Cell cellTwo = uniquePairs.get(j);
-
-					searchRectangle(sudokuGrid, cellOne, cellTwo, emptyCells);
-				}
-			}
-
-		}
-	}
-
-	private static void searchRectangle(SudokuGrid sudokuGrid, Cell cellOne,
-			Cell cellTwo, List<Cell> emptyCells) {
-		List<Cell> rectangleCells = new ArrayList<>();
-		rectangleCells.add(cellOne);
-		rectangleCells.add(cellTwo);
-
-		for (int i = 0; i < emptyCells.size(); i++) {
-			Cell cellThree = emptyCells.get(i);
-			boolean containsEntries = cellThree.getEntries().containsAll(
-					cellOne.getEntries());
-			int twoEntries = 2;
-
-			if (!containsEntries || rectangleCells.contains(cellThree)) {
-				continue;
-			}
-
-			Set<Integer> rows = new HashSet<>();
-			Set<Integer> cols = new HashSet<>();
-			Set<Integer> segs = new HashSet<>();
-			Set<Integer> entries = new HashSet<>();
-			rectangleCells.add(cellThree);
-
-			for (Cell aCell : rectangleCells) {
-				rows.add(aCell.getRow());
-				cols.add(aCell.getColumn());
-				segs.add(aCell.getSegment());
-				entries.addAll(aCell.getEntries());
-			}
-
-			if (cellThree.getEntries().size() == 2) {
-				twoEntries++;
-			}
-
-			for (int j = i + 1; j < emptyCells.size(); j++) {
-				Cell cellFour = emptyCells.get(j);
-				containsEntries = cellFour.getEntries().containsAll(
-						cellOne.getEntries());
-				int twoEntriesNext = twoEntries;
-
-				if (!containsEntries || rectangleCells.contains(cellFour)) {
-					continue;
-				}
-
-				rectangleCells.add(cellFour);
-
-				rows.add(cellFour.getRow());
-				cols.add(cellFour.getColumn());
-				segs.add(cellFour.getSegment());
-				entries.addAll(cellFour.getEntries());
-
-				if (cellFour.getEntries().size() == 2) {
-					twoEntriesNext++;
-				}
-
-				if (rows.size() == 2 && cols.size() == 2 && segs.size() == 2) {
-
-					for (Cell aCell : rectangleCells) {
-						if (aCell.getEntries().size() > 2
-								&& twoEntriesNext == 3) {
-							List<Cell> reason = new ArrayList<>(rectangleCells);
-							int entryOne = (int) cellOne.getEntries().toArray()[0];
-							int entryTwo = (int) cellOne.getEntries().toArray()[1];
-							if (aCell.getEntries().remove(entryOne)) {
-								sudokuGrid.getSolutionSteps().add(
-										new SolutionStep(aCell, entryOne,
-												reason,
-												RuleType.UNIQUE_RECTANGLE));
-							}
-							if (aCell.getEntries().remove(entryTwo)) {
-								sudokuGrid.getSolutionSteps().add(
-										new SolutionStep(aCell, entryTwo,
-												reason,
-												RuleType.UNIQUE_RECTANGLE));
-							}
-						}
-					}
-
-					if (twoEntriesNext == 2 && entries.size() == 3) {
-						removeOutsideRectangle(sudokuGrid, rectangleCells,
-								emptyCells);
-					}
-				}
-
-				rectangleCells.remove(cellFour);
-			}
-
-			rectangleCells.remove(cellThree);
-		}
-	}
-
-	private static void removeOutsideRectangle(SudokuGrid sudokuGrid,
-			List<Cell> rectangleCells, List<Cell> emptyCells) {
-		Cell cellOne = rectangleCells.get(0);
-		Cell cellThree = rectangleCells.get(2);
-		Cell cellFour = rectangleCells.get(3);
-
-		List<SolutionStep> solutionSteps = sudokuGrid.getSolutionSteps();
-		List<Cell> reason = new ArrayList<>(rectangleCells);
-
-		Set<Integer> removal = new HashSet<>(cellThree.getEntries());
-		removal.removeAll(cellOne.getEntries());
-		int entry = (int) removal.toArray()[0];
-
-		if (cellThree.getRow() == cellFour.getRow()) {
-			for (Cell aCell : emptyCells) {
-				if (aCell.getRow() == cellThree.getRow()
-						&& !rectangleCells.contains(aCell)) {
-					if (aCell.getEntries().remove(entry)) {
-						solutionSteps.add(new SolutionStep(aCell, entry,
-								reason, RuleType.UNIQUE_RECTANGLE));
-					}
-				}
-			}
-		}
-
-		if (cellThree.getColumn() == cellFour.getColumn()) {
-			for (Cell aCell : emptyCells) {
-				if (aCell.getColumn() == cellThree.getColumn()
-						&& !rectangleCells.contains(aCell)) {
-					if (aCell.getEntries().remove(entry)) {
-						solutionSteps.add(new SolutionStep(aCell, entry,
-								reason, RuleType.UNIQUE_RECTANGLE));
-					}
-				}
-			}
-		}
-
-		if (cellThree.getSegment() == cellFour.getSegment()) {
-			for (Cell aCell : emptyCells) {
-				if (aCell.getSegment() == cellThree.getSegment()
-						&& !rectangleCells.contains(aCell)) {
-					if (aCell.getEntries().remove(entry)) {
-						solutionSteps.add(new SolutionStep(aCell, entry,
-								reason, RuleType.UNIQUE_RECTANGLE));
-					}
-				}
-			}
-		}
-	}
+//	public static void checkUniqueRectangle(SudokuGrid sudokuGrid,
+//			List<Cell> emptyCells, boolean singleStep) {
+//		List<Cell> pairs = new ArrayList<>();
+//
+//		for (Cell aCell : emptyCells) {
+//			if (aCell.getEntries().size() == 2) {
+//				pairs.add(aCell);
+//			}
+//		}
+//
+//		while (pairs.size() != 0) {
+//			List<Cell> uniquePairs = new ArrayList<>();
+//			uniquePairs.add(pairs.remove(0));
+//			Set<Integer> entriesOne = uniquePairs.get(0).getEntries();
+//
+//			for (int i = 0; i < pairs.size(); i++) {
+//				Set<Integer> entriesTwo = pairs.get(i).getEntries();
+//
+//				if (entriesOne.containsAll(entriesTwo)) {
+//					uniquePairs.add(pairs.remove(i));
+//					i--;
+//				}
+//			}
+//
+//			for (int i = 0; i < uniquePairs.size(); i++) {
+//				Cell cellOne = uniquePairs.get(i);
+//
+//				for (int j = i + 1; j < uniquePairs.size(); j++) {
+//					Cell cellTwo = uniquePairs.get(j);
+//
+//					searchRectangle(sudokuGrid, cellOne, cellTwo, emptyCells);
+//				}
+//			}
+//
+//		}
+//	}
+//
+//	private static void searchRectangle(SudokuGrid sudokuGrid, Cell cellOne,
+//			Cell cellTwo, List<Cell> emptyCells) {
+//		List<Cell> rectangleCells = new ArrayList<>();
+//		rectangleCells.add(cellOne);
+//		rectangleCells.add(cellTwo);
+//
+//		for (int i = 0; i < emptyCells.size(); i++) {
+//			Cell cellThree = emptyCells.get(i);
+//			boolean containsEntries = cellThree.getEntries().containsAll(
+//					cellOne.getEntries());
+//			int twoEntries = 2;
+//
+//			if (!containsEntries || rectangleCells.contains(cellThree)) {
+//				continue;
+//			}
+//
+//			Set<Integer> rows = new HashSet<>();
+//			Set<Integer> cols = new HashSet<>();
+//			Set<Integer> segs = new HashSet<>();
+//			Set<Integer> entries = new HashSet<>();
+//			rectangleCells.add(cellThree);
+//
+//			for (Cell aCell : rectangleCells) {
+//				rows.add(aCell.getRow());
+//				cols.add(aCell.getColumn());
+//				segs.add(aCell.getSegment());
+//				entries.addAll(aCell.getEntries());
+//			}
+//
+//			if (cellThree.getEntries().size() == 2) {
+//				twoEntries++;
+//			}
+//
+//			for (int j = i + 1; j < emptyCells.size(); j++) {
+//				Cell cellFour = emptyCells.get(j);
+//				containsEntries = cellFour.getEntries().containsAll(
+//						cellOne.getEntries());
+//				int twoEntriesNext = twoEntries;
+//
+//				if (!containsEntries || rectangleCells.contains(cellFour)) {
+//					continue;
+//				}
+//
+//				rectangleCells.add(cellFour);
+//
+//				rows.add(cellFour.getRow());
+//				cols.add(cellFour.getColumn());
+//				segs.add(cellFour.getSegment());
+//				entries.addAll(cellFour.getEntries());
+//
+//				if (cellFour.getEntries().size() == 2) {
+//					twoEntriesNext++;
+//				}
+//
+//				if (rows.size() == 2 && cols.size() == 2 && segs.size() == 2) {
+//
+//					for (Cell aCell : rectangleCells) {
+//						if (aCell.getEntries().size() > 2
+//								&& twoEntriesNext == 3) {
+//							List<Cell> reason = new ArrayList<>(rectangleCells);
+//							int entryOne = (int) cellOne.getEntries().toArray()[0];
+//							int entryTwo = (int) cellOne.getEntries().toArray()[1];
+//							if (aCell.getEntries().remove(entryOne)) {
+//								sudokuGrid.getSolutionSteps().add(
+//										new SolutionStep(aCell, entryOne,
+//												reason,
+//												RuleType.UNIQUE_RECTANGLE));
+//							}
+//							if (aCell.getEntries().remove(entryTwo)) {
+//								sudokuGrid.getSolutionSteps().add(
+//										new SolutionStep(aCell, entryTwo,
+//												reason,
+//												RuleType.UNIQUE_RECTANGLE));
+//							}
+//						}
+//					}
+//
+//					if (twoEntriesNext == 2 && entries.size() == 3) {
+//						removeOutsideRectangle(sudokuGrid, rectangleCells,
+//								emptyCells);
+//					}
+//				}
+//
+//				rectangleCells.remove(cellFour);
+//			}
+//
+//			rectangleCells.remove(cellThree);
+//		}
+//	}
+//
+//	private static void removeOutsideRectangle(SudokuGrid sudokuGrid,
+//			List<Cell> rectangleCells, List<Cell> emptyCells) {
+//		Cell cellOne = rectangleCells.get(0);
+//		Cell cellThree = rectangleCells.get(2);
+//		Cell cellFour = rectangleCells.get(3);
+//
+//		List<SolutionStep> solutionSteps = sudokuGrid.getSolutionSteps();
+//		List<Cell> reason = new ArrayList<>(rectangleCells);
+//
+//		Set<Integer> removal = new HashSet<>(cellThree.getEntries());
+//		removal.removeAll(cellOne.getEntries());
+//		int entry = (int) removal.toArray()[0];
+//
+//		if (cellThree.getRow() == cellFour.getRow()) {
+//			for (Cell aCell : emptyCells) {
+//				if (aCell.getRow() == cellThree.getRow()
+//						&& !rectangleCells.contains(aCell)) {
+//					if (aCell.getEntries().remove(entry)) {
+//						solutionSteps.add(new SolutionStep(aCell, entry,
+//								reason, RuleType.UNIQUE_RECTANGLE));
+//					}
+//				}
+//			}
+//		}
+//
+//		if (cellThree.getColumn() == cellFour.getColumn()) {
+//			for (Cell aCell : emptyCells) {
+//				if (aCell.getColumn() == cellThree.getColumn()
+//						&& !rectangleCells.contains(aCell)) {
+//					if (aCell.getEntries().remove(entry)) {
+//						solutionSteps.add(new SolutionStep(aCell, entry,
+//								reason, RuleType.UNIQUE_RECTANGLE));
+//					}
+//				}
+//			}
+//		}
+//
+//		if (cellThree.getSegment() == cellFour.getSegment()) {
+//			for (Cell aCell : emptyCells) {
+//				if (aCell.getSegment() == cellThree.getSegment()
+//						&& !rectangleCells.contains(aCell)) {
+//					if (aCell.getEntries().remove(entry)) {
+//						solutionSteps.add(new SolutionStep(aCell, entry,
+//								reason, RuleType.UNIQUE_RECTANGLE));
+//					}
+//				}
+//			}
+//		}
+//	}
 
 	private static List<List<Integer>> getPermutation(List<Integer> emptyCells) {
 		List<List<Integer>> permutations = new ArrayList<>();
@@ -939,8 +939,8 @@ public class GridSolver {
 			checkSmallFish(sudokuGrid, emptyCells, 4, singleStep);
 		} else if (ruleType == RuleType.REMOTE_PAIRS) {
 			checkRemotePairs(sudokuGrid, emptyCells, singleStep);
-		} else if (ruleType == RuleType.UNIQUE_RECTANGLE) {
-			checkUniqueRectangle(sudokuGrid, emptyCells, singleStep);
+//		} else if (ruleType == RuleType.UNIQUE_RECTANGLE) {
+//			checkUniqueRectangle(sudokuGrid, emptyCells, singleStep);
 		}
 	}
 	

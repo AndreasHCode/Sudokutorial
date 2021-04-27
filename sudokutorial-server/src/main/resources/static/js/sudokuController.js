@@ -15,10 +15,10 @@ app.controller("sudokuController", function($scope, $http, $timeout, $location, 
 	$scope.stepColorCells = [];
 	
 	$scope.rules = ["removeOptions", "findUnique", "findUniqueRowColumn", "entryCombination", 
-		"findXWing", "findSwordfish", "findJellyfish", "findRemotePairs", "findUniqueRectangle"];
+		"findXWing", "findSwordfish", "findJellyfish", "findRemotePairs"];
 	
 	$scope.rulesText = ["Remove Options", "Find Unique", "Find Unique in Row or Column", "Find Entry Combinations", 
-		"Find X-Wing", "Find Swordfish", "Find Jellyfish", "Find Remote Pairs", "Find Unique Rectangle"];
+		"Find X-Wing", "Find Swordfish", "Find Jellyfish", "Find Remote Pairs"];
 	
 	$scope.ruleDifficulty = {
 		"removeOptions": 1,
@@ -29,7 +29,6 @@ app.controller("sudokuController", function($scope, $http, $timeout, $location, 
 		"findSwordfish": 5,
 		"findJellyfish": 5,
 		"findRemotePairs": 5,
-		"findUniqueRectangle": 5
 	}
 	
 	$scope.getUrlParameter = function(urlParam) {
