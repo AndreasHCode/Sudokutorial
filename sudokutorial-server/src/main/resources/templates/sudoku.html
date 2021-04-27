@@ -22,13 +22,6 @@
   
   <div id="fader" ng-click="removeFade()"></div>
   
-  <h1 sec:authorize="isAuthenticated()" class="helloHead" th:text="'Hello ' + ${playerName}">
-  </h1>
-  
-  <h1 sec:authorize="!isAuthenticated()" class="helloHead">
-    Hello Puzzler!
-  </h1>
-  
   <div id="options-menu">
     <div class="container options-container" ng-mousedown="optionMouseDown($event)" ng-mouseup="optionMouseUp($event)" ng-click="selectOption($event)" ng-dblclick="makeEntry($event)">
       <div class="row options-row">
