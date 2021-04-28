@@ -1,10 +1,7 @@
 package com.sudokutorial.controller.rest;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,64 +31,64 @@ import com.sudokutorial.service.PlayerService;
 
 @RestController
 public class SudokuGridController {
-	
+
 	SudokuGrid sudokuGrid;
-	
+
 	@Autowired
 	PlayedGridService playedGridService;
-	
+
 	@Autowired
 	BaseGridService baseGridService;
-	
+
 	@Autowired
 	PlayerService playerService;
-	
-	@GetMapping (value = "/grid")
+
+	@GetMapping(value = "/grid")
 	public SudokuGrid getGrid(@RequestParam("d") Integer difficutlyInt) {
 		Difficulty difficulty = Difficulty.values()[difficutlyInt - 1];
 		sudokuGrid = new SudokuGrid();
 		GridHelper.generateGrid(sudokuGrid, difficulty);
-		
+
 		return sudokuGrid;
 	}
-	
-	@PostMapping (value = "/grid")
+
+	@PostMapping(value = "/grid")
 	public void putGrid(@RequestBody SudokuGrid sudokuGrid) {
-			
+
 	}
 
-	@PostMapping (value = "/makeEntries")
+	@PostMapping(value = "/makeEntries")
 	public SudokuGrid postMakeEntries(@RequestBody SudokuGrid sudokuGridBack) {
 		SudokuGrid cleanedGrid = sudokuGridBack.cloneSudokuGrid();
 		GridSolver.makeUniqueEntries(cleanedGrid);
-		
+
 		return cleanedGrid;
 	}
 
-	@PostMapping (value = "/applyRule/{ruleType}")
+	@PostMapping(value = "/applyRule/{ruleType}")
 	public SudokuGrid postApplyRule(@RequestBody SudokuGrid sudokuGridBack, @PathVariable("ruleType") String ruleType) {
 		SudokuGrid cleanedGrid = sudokuGridBack.cloneSudokuGrid();
 		RuleType appliedRule = RuleType.getFromString(ruleType);
 		GridSolver.applyRule(cleanedGrid, appliedRule, true);
-		
+
 		return cleanedGrid;
 	}
 
-	@PostMapping (value = "/solutionStepsMap")
+	@PostMapping(value = "/solutionStepsMap")
 	public HashMap<String, List<SolutionStep>> postSolutionStepsMap(@RequestBody SudokuGrid sudokuGridBack) {
 		SudokuGrid cleanedGrid = sudokuGridBack.cloneSudokuGrid();
 		return GridSolver.getSolutionStepsMap(cleanedGrid);
 	}
 
-	@PostMapping (value = "/solveGrid")
+	@PostMapping(value = "/solveGrid")
 	public SudokuGrid postSolveGrid(@RequestBody SudokuGrid sudokuGridBack) {
 		SudokuGrid solvedGrid = sudokuGridBack.cloneSudokuGrid();
 		GridSolver.solveGrid(solvedGrid, Difficulty.FIVE);
-		
+
 		return solvedGrid;
 	}
-	
-	@PostMapping (value = "/saveGrid")
+
+	@PostMapping(value = "/saveGrid")
 	public ResponseEntity<?> postSaveGrid(@RequestBody SudokuGrid sudokuGridBack) {
 		SudokuGrid cleanedGrid = sudokuGridBack.cloneSudokuGrid();
 		String[] stringGrids = GridHelper.gridToString(cleanedGrid, '0');
@@ -101,7 +98,7 @@ public class SudokuGridController {
 			baseGrid = new BaseGrid();
 			baseGrid.setStringGrid(stringGrids[0]);
 		}
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			String email = auth.getName();
@@ -115,14 +112,14 @@ public class SudokuGridController {
 			playedGrid.setPlayer(player);
 			playedGridService.savePlayedGrid(playedGrid);
 		}
-		
+
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
-	@GetMapping (value = "/loadGrid")
+
+	@GetMapping(value = "/loadGrid")
 	public SudokuGrid getLoadGrid() {
 		PlayedGrid playedGrid = new PlayedGrid();
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			String email = auth.getName();
@@ -131,7 +128,7 @@ public class SudokuGridController {
 			if (playedGrids.isEmpty()) {
 				sudokuGrid = new SudokuGrid();
 				GridHelper.generateGrid(sudokuGrid, Difficulty.ONE);
-				
+
 				return sudokuGrid;
 			}
 			playedGrid = playedGrids.get(playedGrids.size() - 1);
@@ -139,11 +136,11 @@ public class SudokuGridController {
 			stringGrids[0] = playedGrid.getBaseGrid().getStringGrid();
 			stringGrids[1] = playedGrid.getStringGrid();
 			SudokuGrid sudokuGrid = GridHelper.stringToGrid(stringGrids, '0');
-			
+
 			return sudokuGrid;
 		}
-		
+
 		return sudokuGrid;
 	}
-	
+
 }
