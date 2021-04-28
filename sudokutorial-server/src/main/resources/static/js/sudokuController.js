@@ -288,8 +288,6 @@ app.controller("sudokuController", function($scope, $http, $timeout, $location, 
 			for (let i = 1; i <= 9; i++) {
 				if (selectedOption != i) {
 					cell.entries.push(i);
-					$("#option-" + parseInt(selectedOption)).removeClass("valid-option");
-					$("#option-" + parseInt(selectedOption)).addClass("invalid-option");
 				}
 			}
 			cell.number = parseInt(selectedOption);
