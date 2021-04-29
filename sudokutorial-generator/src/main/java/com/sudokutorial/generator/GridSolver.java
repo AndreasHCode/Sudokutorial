@@ -486,6 +486,9 @@ public class GridSolver {
 					if (inColumn && !inRow && containsEntry) {
 						aCell.getEntries().remove(entry);
 						solutionSteps.add(new SolutionStep(aCell, entry, reason, RuleType.X_WING));
+						if (singleStep) {
+							return;
+						}
 					}
 				}
 			}
@@ -531,6 +534,9 @@ public class GridSolver {
 					if (inRow && !inColumn && containsEntry) {
 						aCell.getEntries().remove(entry);
 						solutionSteps.add(new SolutionStep(aCell, entry, reason, RuleType.X_WING));
+						if (singleStep) {
+							return;
+						}
 					}
 				}
 			}
