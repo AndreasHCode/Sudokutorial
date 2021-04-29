@@ -285,11 +285,6 @@ app.controller("sudokuController", function($scope, $http, $timeout, $location, 
 			cell.number = 0;
 		} else {
 			cell.entries = [];
-			for (let i = 1; i <= 9; i++) {
-				if (selectedOption != i) {
-					cell.entries.push(i);
-				}
-			}
 			cell.number = parseInt(selectedOption);
 		}
 		
