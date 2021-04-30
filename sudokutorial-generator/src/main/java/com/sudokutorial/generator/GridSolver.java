@@ -140,21 +140,27 @@ public class GridSolver {
 					if (aCell.deletePossibleEntry(rowNumber)) {
 						List<Cell> reason = new ArrayList<>();
 						reason.add(arrayGrid[row][i]);
-						solutionSteps.add(new SolutionStep(aCell, rowNumber, reason, RuleType.EXCLUDE_ENTRIES));
+						String explanation = String.valueOf(rowNumber) + " is already in this row.";
+						solutionSteps
+								.add(new SolutionStep(aCell, rowNumber, reason, RuleType.EXCLUDE_ENTRIES, explanation));
 					}
 				}
 				if (colNumber != 0) {
 					if (aCell.deletePossibleEntry(colNumber)) {
 						List<Cell> reason = new ArrayList<>();
 						reason.add(arrayGrid[i][col]);
-						solutionSteps.add(new SolutionStep(aCell, colNumber, reason, RuleType.EXCLUDE_ENTRIES));
+						String explanation = String.valueOf(colNumber) + " is already in this column.";
+						solutionSteps
+								.add(new SolutionStep(aCell, colNumber, reason, RuleType.EXCLUDE_ENTRIES, explanation));
 					}
 				}
 				if (segNumber != 0) {
 					if (aCell.deletePossibleEntry(segNumber)) {
 						List<Cell> reason = new ArrayList<>();
 						reason.add(segmentGrid.get(segment).get(i));
-						solutionSteps.add(new SolutionStep(aCell, segNumber, reason, RuleType.EXCLUDE_ENTRIES));
+						String explanation = String.valueOf(segNumber) + " is already in this block.";
+						solutionSteps
+								.add(new SolutionStep(aCell, segNumber, reason, RuleType.EXCLUDE_ENTRIES, explanation));
 					}
 				}
 			}
@@ -190,7 +196,8 @@ public class GridSolver {
 					for (int j = 0; j < aCell.getEntries().size(); j++) {
 						int removedOption = (int) aCell.getEntries().toArray()[j];
 						if (removedOption != entry) {
-							solutionSteps.add(new SolutionStep(aCell, removedOption, reason, RuleType.UNIQUE_ENTRY));
+							solutionSteps
+									.add(new SolutionStep(aCell, removedOption, reason, RuleType.UNIQUE_ENTRY, ""));
 						}
 					}
 
@@ -213,7 +220,8 @@ public class GridSolver {
 					for (int j = 0; j < aCell.getEntries().size(); j++) {
 						int removedOption = (int) aCell.getEntries().toArray()[j];
 						if (removedOption != entry) {
-							solutionSteps.add(new SolutionStep(aCell, removedOption, reason, RuleType.UNIQUE_ENTRY));
+							solutionSteps
+									.add(new SolutionStep(aCell, removedOption, reason, RuleType.UNIQUE_ENTRY, ""));
 						}
 					}
 
@@ -236,7 +244,8 @@ public class GridSolver {
 					for (int j = 0; j < aCell.getEntries().size(); j++) {
 						int removedOption = (int) aCell.getEntries().toArray()[j];
 						if (removedOption != entry) {
-							solutionSteps.add(new SolutionStep(aCell, removedOption, reason, RuleType.UNIQUE_ENTRY));
+							solutionSteps
+									.add(new SolutionStep(aCell, removedOption, reason, RuleType.UNIQUE_ENTRY, ""));
 						}
 					}
 
@@ -281,7 +290,8 @@ public class GridSolver {
 					for (Cell aCell : emptyCells) {
 						if (aCell.getRow() == row && aCell.getSegment() != segment) {
 							if (aCell.deletePossibleEntry(anEntry)) {
-								solutionSteps.add(new SolutionStep(aCell, anEntry, reason, RuleType.UNIQUE_ROW_COLUMN));
+								solutionSteps
+										.add(new SolutionStep(aCell, anEntry, reason, RuleType.UNIQUE_ROW_COLUMN, ""));
 								if (singleStep) {
 									return;
 								}
@@ -309,7 +319,8 @@ public class GridSolver {
 					for (Cell aCell : emptyCells) {
 						if (aCell.getColumn() == column && aCell.getSegment() != segment) {
 							if (aCell.deletePossibleEntry(anEntry)) {
-								solutionSteps.add(new SolutionStep(aCell, anEntry, reason, RuleType.UNIQUE_ROW_COLUMN));
+								solutionSteps
+										.add(new SolutionStep(aCell, anEntry, reason, RuleType.UNIQUE_ROW_COLUMN, ""));
 								if (singleStep) {
 									return;
 								}
@@ -388,7 +399,7 @@ public class GridSolver {
 				for (Cell aCell : emptyCells) {
 					for (Integer anEntry : aCell.getEntries()) {
 						if (possibleEntriesCombination.contains(anEntry)) {
-							solutionSteps.add(new SolutionStep(aCell, anEntry, reason, RuleType.ENTRY_COMBINATION));
+							solutionSteps.add(new SolutionStep(aCell, anEntry, reason, RuleType.ENTRY_COMBINATION, ""));
 						}
 					}
 
@@ -485,7 +496,7 @@ public class GridSolver {
 
 					if (inColumn && !inRow && containsEntry) {
 						aCell.getEntries().remove(entry);
-						solutionSteps.add(new SolutionStep(aCell, entry, reason, RuleType.X_WING));
+						solutionSteps.add(new SolutionStep(aCell, entry, reason, RuleType.X_WING, ""));
 						if (singleStep) {
 							return;
 						}
@@ -533,7 +544,7 @@ public class GridSolver {
 
 					if (inRow && !inColumn && containsEntry) {
 						aCell.getEntries().remove(entry);
-						solutionSteps.add(new SolutionStep(aCell, entry, reason, RuleType.X_WING));
+						solutionSteps.add(new SolutionStep(aCell, entry, reason, RuleType.X_WING, ""));
 						if (singleStep) {
 							return;
 						}
@@ -633,10 +644,10 @@ public class GridSolver {
 				}
 
 				if (hadEntryOne) {
-					solutionSteps.add(new SolutionStep(aCell, entryOne, reason, RuleType.REMOTE_PAIRS));
+					solutionSteps.add(new SolutionStep(aCell, entryOne, reason, RuleType.REMOTE_PAIRS, ""));
 				}
 				if (hadEntryTwo) {
-					solutionSteps.add(new SolutionStep(aCell, entryTwo, reason, RuleType.REMOTE_PAIRS));
+					solutionSteps.add(new SolutionStep(aCell, entryTwo, reason, RuleType.REMOTE_PAIRS, ""));
 				}
 			}
 		}

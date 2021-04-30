@@ -8,17 +8,18 @@ public class SolutionStep {
 	private RuleType ruleType;
 	private int entry;
 	private List<Cell> reason;
+	private String explanation;
 
 	public SolutionStep() {
-		
+
 	}
-	
-	public SolutionStep(Cell cell, int entry, List<Cell> reason,
-			RuleType ruleType) {
+
+	public SolutionStep(Cell cell, int entry, List<Cell> reason, RuleType ruleType, String explanation) {
 		this.cell = cell;
 		this.entry = entry;
 		this.reason = reason;
 		this.ruleType = ruleType;
+		this.explanation = explanation;
 	}
 
 	public Cell getCell() {
@@ -52,4 +53,13 @@ public class SolutionStep {
 	public void setReason(List<Cell> reason) {
 		this.reason = reason;
 	}
+
+	public String getExplanation() {
+		return explanation;
+	}
+
+	public void setExplanation(String explanation) {
+		this.explanation = explanation;
+	}
+
 }

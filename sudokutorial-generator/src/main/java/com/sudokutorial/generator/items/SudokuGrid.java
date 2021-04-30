@@ -116,10 +116,8 @@ public class SudokuGrid {
 			for (int l = 0; l < 3; l++) {
 				for (int j = 0; j < 3; j++) {
 					for (int k = 0; k < 3; k++) {
-						segmentGrid.get(m * 3 + l).add(
-								listGrid.get(j * 9 + offset + k + m * 27));
-						listGrid.get(j * 9 + offset + k + m * 27).setSegment(
-								m * 3 + l);
+						segmentGrid.get(m * 3 + l).add(listGrid.get(j * 9 + offset + k + m * 27));
+						listGrid.get(j * 9 + offset + k + m * 27).setSegment(m * 3 + l);
 					}
 				}
 
@@ -138,8 +136,9 @@ public class SudokuGrid {
 			RuleType stepType = step.getRuleType();
 			int entry = step.getEntry();
 			List<Cell> reason = step.getReason();
+			String explanation = step.getExplanation()
 
-			solutionSteps.add(new SolutionStep(cell, entry, reason, stepType));
+			solutionSteps.add(new SolutionStep(cell, entry, reason, stepType, explanation));
 		}
 		sudokuGrid.setSolutionSteps(solutionSteps);
 
@@ -150,7 +149,7 @@ public class SudokuGrid {
 				}
 			}
 		}
-		
+
 		return sudokuGrid;
 	}
 
@@ -170,5 +169,5 @@ public class SudokuGrid {
 				+ segmentGrid + ", difficulty=" + difficulty + ", zeroesCount=" + zeroesCount + ", solutionSteps="
 				+ solutionSteps + "]";
 	}
-	
+
 }
