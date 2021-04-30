@@ -136,7 +136,7 @@ public class SudokuGrid {
 			RuleType stepType = step.getRuleType();
 			int entry = step.getEntry();
 			List<Cell> reason = step.getReason();
-			String explanation = step.getExplanation()
+			String explanation = step.getExplanation();
 
 			solutionSteps.add(new SolutionStep(cell, entry, reason, stepType, explanation));
 		}
