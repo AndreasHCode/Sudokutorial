@@ -124,7 +124,6 @@ public class GridSolver {
 	public static void checkExcludeEntries(SudokuGrid sudokuGrid, List<Cell> emptyCells) {
 		Cell[][] arrayGrid = sudokuGrid.getArrayGrid();
 		List<List<Cell>> segmentGrid = sudokuGrid.getSegmentGrid();
-		List<SolutionStep> solutionSteps = sudokuGrid.getSolutionSteps();
 
 		for (Cell aCell : emptyCells) {
 			int row = aCell.getRow();
@@ -140,27 +139,18 @@ public class GridSolver {
 					if (aCell.deletePossibleEntry(rowNumber)) {
 						List<Cell> reason = new ArrayList<>();
 						reason.add(arrayGrid[row][i]);
-						String explanation = String.valueOf(rowNumber) + " is already in this row.";
-						solutionSteps
-								.add(new SolutionStep(aCell, rowNumber, reason, RuleType.EXCLUDE_ENTRIES, explanation));
 					}
 				}
 				if (colNumber != 0) {
 					if (aCell.deletePossibleEntry(colNumber)) {
 						List<Cell> reason = new ArrayList<>();
 						reason.add(arrayGrid[i][col]);
-						String explanation = String.valueOf(colNumber) + " is already in this column.";
-						solutionSteps
-								.add(new SolutionStep(aCell, colNumber, reason, RuleType.EXCLUDE_ENTRIES, explanation));
 					}
 				}
 				if (segNumber != 0) {
 					if (aCell.deletePossibleEntry(segNumber)) {
 						List<Cell> reason = new ArrayList<>();
 						reason.add(segmentGrid.get(segment).get(i));
-						String explanation = String.valueOf(segNumber) + " is already in this block.";
-						solutionSteps
-								.add(new SolutionStep(aCell, segNumber, reason, RuleType.EXCLUDE_ENTRIES, explanation));
 					}
 				}
 			}
