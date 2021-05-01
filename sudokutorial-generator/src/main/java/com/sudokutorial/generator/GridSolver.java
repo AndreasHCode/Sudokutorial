@@ -186,8 +186,10 @@ public class GridSolver {
 					for (int j = 0; j < aCell.getEntries().size(); j++) {
 						int removedOption = (int) aCell.getEntries().toArray()[j];
 						if (removedOption != entry) {
-							solutionSteps
-									.add(new SolutionStep(aCell, removedOption, reason, RuleType.UNIQUE_ENTRY, ""));
+							String explanation = "Only 1 possible entry in row " + j;
+							SolutionStep solutionStep = new SolutionStep(aCell, removedOption, reason,
+									RuleType.UNIQUE_ENTRY, explanation);
+							solutionSteps.add(solutionStep);
 						}
 					}
 
@@ -210,8 +212,10 @@ public class GridSolver {
 					for (int j = 0; j < aCell.getEntries().size(); j++) {
 						int removedOption = (int) aCell.getEntries().toArray()[j];
 						if (removedOption != entry) {
-							solutionSteps
-									.add(new SolutionStep(aCell, removedOption, reason, RuleType.UNIQUE_ENTRY, ""));
+							String explanation = "Only 1 possible entry in column " + j;
+							SolutionStep solutionStep = new SolutionStep(aCell, removedOption, reason,
+									RuleType.UNIQUE_ENTRY, explanation);
+							solutionSteps.add(solutionStep);
 						}
 					}
 
@@ -234,8 +238,10 @@ public class GridSolver {
 					for (int j = 0; j < aCell.getEntries().size(); j++) {
 						int removedOption = (int) aCell.getEntries().toArray()[j];
 						if (removedOption != entry) {
-							solutionSteps
-									.add(new SolutionStep(aCell, removedOption, reason, RuleType.UNIQUE_ENTRY, ""));
+							String explanation = "Only 1 possible entry in block " + j;
+							SolutionStep solutionStep = new SolutionStep(aCell, removedOption, reason,
+									RuleType.UNIQUE_ENTRY, explanation);
+							solutionSteps.add(solutionStep);
 						}
 					}
 
