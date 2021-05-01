@@ -161,7 +161,6 @@ app.controller("sudokuController", function($scope, $http, $timeout, $location, 
 		$scope.removeStepColorings();
 		let stepCell = $scope.ruleStepsMap[rule][0];
 		let reasonCell;
-		console.log(reasonCell);
 		
 		if (stepCell == null) {
 			return;
@@ -176,7 +175,7 @@ app.controller("sudokuController", function($scope, $http, $timeout, $location, 
 		reasonCell = $("#cell-entry-" + stepCell.cell.column + "-" + stepCell.cell.row + "-" + stepCell.entry);
 		reasonCell.addClass("entry-removal");
 		$scope.stepColorCells.push(reasonCell);
-		$("#solutionStepDesc").text(reasonCell);
+		$("#solutionStepDesc").text(stepCell.explanation);
 	}
 	
 	$scope.removeStepColorings = function() {
