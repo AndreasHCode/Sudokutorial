@@ -186,8 +186,8 @@ public class GridSolver {
 					for (int j = 0; j < aCell.getEntries().size(); j++) {
 						int removedOption = (int) aCell.getEntries().toArray()[j];
 						if (removedOption != entry) {
-							String explanation = "Only one possible entry for " + entry + " in row " + aCell.getRow()
-									+ 1;
+							String explanation = "Only one possible entry for " + entry + " in row "
+									+ (aCell.getRow() + 1);
 							SolutionStep solutionStep = new SolutionStep(aCell, removedOption, reason,
 									RuleType.UNIQUE_ENTRY, explanation);
 							solutionSteps.add(solutionStep);
@@ -214,7 +214,7 @@ public class GridSolver {
 						int removedOption = (int) aCell.getEntries().toArray()[j];
 						if (removedOption != entry) {
 							String explanation = "Only one possible entry for " + entry + " in column "
-									+ aCell.getColumn() + 1;
+									+ (aCell.getColumn() + 1);
 							SolutionStep solutionStep = new SolutionStep(aCell, removedOption, reason,
 									RuleType.UNIQUE_ENTRY, explanation);
 							solutionSteps.add(solutionStep);
@@ -241,7 +241,7 @@ public class GridSolver {
 						int removedOption = (int) aCell.getEntries().toArray()[j];
 						if (removedOption != entry) {
 							String explanation = "Only one possible entry for " + entry + " in block "
-									+ +aCell.getSegment() + 1;
+									+ (aCell.getSegment() + 1);
 							SolutionStep solutionStep = new SolutionStep(aCell, removedOption, reason,
 									RuleType.UNIQUE_ENTRY, explanation);
 							solutionSteps.add(solutionStep);
@@ -290,7 +290,7 @@ public class GridSolver {
 						if (aCell.getRow() == row && aCell.getSegment() != segment) {
 							if (aCell.deletePossibleEntry(anEntry)) {
 								String explanation = "Only one possible way for " + anEntry + " to be in row "
-										+ +aCell.getRow() + 1;
+										+ (aCell.getRow() + 1);
 								SolutionStep solutionStep = new SolutionStep(aCell, anEntry, reason,
 										RuleType.UNIQUE_ROW_COLUMN, explanation);
 								solutionSteps.add(solutionStep);
