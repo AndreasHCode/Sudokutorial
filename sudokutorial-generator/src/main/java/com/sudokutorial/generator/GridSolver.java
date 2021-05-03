@@ -186,7 +186,8 @@ public class GridSolver {
 					for (int j = 0; j < aCell.getEntries().size(); j++) {
 						int removedOption = (int) aCell.getEntries().toArray()[j];
 						if (removedOption != entry) {
-							String explanation = "Only one possible entry for " + entry + " in row " + aCell.getRow();
+							String explanation = "Only one possible entry for " + entry + " in row " + aCell.getRow()
+									+ 1;
 							SolutionStep solutionStep = new SolutionStep(aCell, removedOption, reason,
 									RuleType.UNIQUE_ENTRY, explanation);
 							solutionSteps.add(solutionStep);
@@ -213,7 +214,7 @@ public class GridSolver {
 						int removedOption = (int) aCell.getEntries().toArray()[j];
 						if (removedOption != entry) {
 							String explanation = "Only one possible entry for " + entry + " in column "
-									+ aCell.getColumn();
+									+ aCell.getColumn() + 1;
 							SolutionStep solutionStep = new SolutionStep(aCell, removedOption, reason,
 									RuleType.UNIQUE_ENTRY, explanation);
 							solutionSteps.add(solutionStep);
@@ -240,7 +241,7 @@ public class GridSolver {
 						int removedOption = (int) aCell.getEntries().toArray()[j];
 						if (removedOption != entry) {
 							String explanation = "Only one possible entry for " + entry + " in block "
-									+ +aCell.getSegment();
+									+ +aCell.getSegment() + 1;
 							SolutionStep solutionStep = new SolutionStep(aCell, removedOption, reason,
 									RuleType.UNIQUE_ENTRY, explanation);
 							solutionSteps.add(solutionStep);
@@ -288,8 +289,11 @@ public class GridSolver {
 					for (Cell aCell : emptyCells) {
 						if (aCell.getRow() == row && aCell.getSegment() != segment) {
 							if (aCell.deletePossibleEntry(anEntry)) {
-								solutionSteps
-										.add(new SolutionStep(aCell, anEntry, reason, RuleType.UNIQUE_ROW_COLUMN, ""));
+								String explanation = "Only one possible way for " + anEntry + " to be in row "
+										+ +aCell.getRow() + 1;
+								SolutionStep solutionStep = new SolutionStep(aCell, anEntry, reason,
+										RuleType.UNIQUE_ROW_COLUMN, explanation);
+								solutionSteps.add(solutionStep);
 								if (singleStep) {
 									return;
 								}
