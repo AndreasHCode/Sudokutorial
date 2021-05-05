@@ -126,6 +126,8 @@ public class GridSolver {
 		List<List<Cell>> segmentGrid = sudokuGrid.getSegmentGrid();
 
 		for (Cell aCell : emptyCells) {
+
+			// FIXME rework solutionstepslis, remove list during generation
 			int row = aCell.getRow();
 			int col = aCell.getColumn();
 			int segment = aCell.getSegment();
