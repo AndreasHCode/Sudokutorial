@@ -321,8 +321,10 @@ public class GridSolver {
 					for (Cell aCell : emptyCells) {
 						if (aCell.getColumn() == column && aCell.getSegment() != segment) {
 							if (aCell.deletePossibleEntry(anEntry)) {
-								solutionSteps
-										.add(new SolutionStep(aCell, anEntry, reason, RuleType.UNIQUE_ROW_COLUMN, ""));
+								String explanation = "Only one possible way for " + anEntry + " to be in column "
+										+ (aCell.getRow() + 1);
+								solutionSteps.add(new SolutionStep(aCell, anEntry, reason, RuleType.UNIQUE_ROW_COLUMN,
+										explanation));
 								if (singleStep) {
 									return;
 								}
