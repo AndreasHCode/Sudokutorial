@@ -403,7 +403,11 @@ public class GridSolver {
 				for (Cell aCell : emptyCells) {
 					for (Integer anEntry : aCell.getEntries()) {
 						if (possibleEntriesCombination.contains(anEntry)) {
-							solutionSteps.add(new SolutionStep(aCell, anEntry, reason, RuleType.ENTRY_COMBINATION, ""));
+							String explanation = "Only one possible way for " + anEntry
+									+ " to be in this entry combination " + (aCell.getRow() + 1);
+							SolutionStep solutionStep = new SolutionStep(aCell, anEntry, reason,
+									RuleType.ENTRY_COMBINATION, explanation);
+							solutionSteps.add(solutionStep);
 						}
 					}
 
