@@ -136,22 +136,13 @@ public class GridSolver {
 				int segNumber = segmentGrid.get(segment).get(i).getNumber();
 
 				if (rowNumber != 0) {
-					if (aCell.deletePossibleEntry(rowNumber)) {
-						List<Cell> reason = new ArrayList<>();
-						reason.add(arrayGrid[row][i]);
-					}
+					aCell.deletePossibleEntry(rowNumber);
 				}
 				if (colNumber != 0) {
-					if (aCell.deletePossibleEntry(colNumber)) {
-						List<Cell> reason = new ArrayList<>();
-						reason.add(arrayGrid[i][col]);
-					}
+					aCell.deletePossibleEntry(colNumber);
 				}
 				if (segNumber != 0) {
-					if (aCell.deletePossibleEntry(segNumber)) {
-						List<Cell> reason = new ArrayList<>();
-						reason.add(segmentGrid.get(segment).get(i));
-					}
+					aCell.deletePossibleEntry(segNumber);
 				}
 			}
 		}
