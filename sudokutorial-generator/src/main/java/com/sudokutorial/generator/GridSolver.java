@@ -275,12 +275,10 @@ public class GridSolver {
 
 			for (Integer anEntry : possibleEntries) {
 				Set<Integer> rowsOccured = new HashSet<>();
-				List<Cell> reason = new ArrayList<>();
 
 				for (Cell aCell : emptyCellsInSegment) {
 					if (aCell.getEntries().contains(anEntry)) {
 						rowsOccured.add(aCell.getRow());
-						reason.add(aCell);
 					}
 				}
 
@@ -290,11 +288,13 @@ public class GridSolver {
 					for (Cell aCell : emptyCells) {
 						if (aCell.getRow() == row && aCell.getSegment() != segment) {
 							if (aCell.deletePossibleEntry(anEntry)) {
-								String explanation = "Only one possible way for " + anEntry + " to be in row "
-										+ (aCell.getRow() + 1);
-								SolutionStep solutionStep = new SolutionStep(aCell, anEntry, reason,
-										RuleType.UNIQUE_ROW_COLUMN, explanation);
-								solutionSteps.add(solutionStep);
+								if (generating) {
+									String explanation = "Only one possible way for " + anEntry + " to be in row "
+											+ (aCell.getRow() + 1);
+									SolutionStep solutionStep = new SolutionStep(aCell, anEntry, new ArrayList<>(),
+											RuleType.UNIQUE_ROW_COLUMN, explanation);
+									solutionSteps.add(solutionStep);
+								}
 								if (singleStep) {
 									return;
 								}
