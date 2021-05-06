@@ -174,17 +174,19 @@ public class GridSolver {
 				}
 
 				if (possibleEntries == 1) {
-					List<Cell> reason = new ArrayList<>();
-					reason.add(aCell);
+					if (generating) {
+						List<Cell> reason = new ArrayList<>();
+						reason.add(aCell);
 
-					for (int j = 0; j < aCell.getEntries().size(); j++) {
-						int removedOption = (int) aCell.getEntries().toArray()[j];
-						if (removedOption != entry) {
-							String explanation = "Only one possible entry for " + entry + " in row "
-									+ (aCell.getRow() + 1);
-							SolutionStep solutionStep = new SolutionStep(aCell, removedOption, reason,
-									RuleType.UNIQUE_ENTRY, explanation);
-							solutionSteps.add(solutionStep);
+						for (int j = 0; j < aCell.getEntries().size(); j++) {
+							int removedOption = (int) aCell.getEntries().toArray()[j];
+							if (removedOption != entry) {
+								String explanation = "Only one possible entry for " + entry + " in row "
+										+ (aCell.getRow() + 1);
+								SolutionStep solutionStep = new SolutionStep(aCell, removedOption, reason,
+										RuleType.UNIQUE_ENTRY, explanation);
+								solutionSteps.add(solutionStep);
+							}
 						}
 					}
 
@@ -201,17 +203,19 @@ public class GridSolver {
 				}
 
 				if (possibleEntries == 1) {
-					List<Cell> reason = new ArrayList<>();
-					reason.add(aCell);
+					if (generating) {
+						List<Cell> reason = new ArrayList<>();
+						reason.add(aCell);
 
-					for (int j = 0; j < aCell.getEntries().size(); j++) {
-						int removedOption = (int) aCell.getEntries().toArray()[j];
-						if (removedOption != entry) {
-							String explanation = "Only one possible entry for " + entry + " in column "
-									+ (aCell.getColumn() + 1);
-							SolutionStep solutionStep = new SolutionStep(aCell, removedOption, reason,
-									RuleType.UNIQUE_ENTRY, explanation);
-							solutionSteps.add(solutionStep);
+						for (int j = 0; j < aCell.getEntries().size(); j++) {
+							int removedOption = (int) aCell.getEntries().toArray()[j];
+							if (removedOption != entry) {
+								String explanation = "Only one possible entry for " + entry + " in column "
+										+ (aCell.getColumn() + 1);
+								SolutionStep solutionStep = new SolutionStep(aCell, removedOption, reason,
+										RuleType.UNIQUE_ENTRY, explanation);
+								solutionSteps.add(solutionStep);
+							}
 						}
 					}
 
@@ -228,17 +232,19 @@ public class GridSolver {
 				}
 
 				if (possibleEntries == 1) {
-					List<Cell> reason = new ArrayList<>();
-					reason.add(aCell);
+					if (generating) {
+						List<Cell> reason = new ArrayList<>();
+						reason.add(aCell);
 
-					for (int j = 0; j < aCell.getEntries().size(); j++) {
-						int removedOption = (int) aCell.getEntries().toArray()[j];
-						if (removedOption != entry) {
-							String explanation = "Only one possible entry for " + entry + " in block "
-									+ (aCell.getSegment() + 1);
-							SolutionStep solutionStep = new SolutionStep(aCell, removedOption, reason,
-									RuleType.UNIQUE_ENTRY, explanation);
-							solutionSteps.add(solutionStep);
+						for (int j = 0; j < aCell.getEntries().size(); j++) {
+							int removedOption = (int) aCell.getEntries().toArray()[j];
+							if (removedOption != entry) {
+								String explanation = "Only one possible entry for " + entry + " in block "
+										+ (aCell.getSegment() + 1);
+								SolutionStep solutionStep = new SolutionStep(aCell, removedOption, reason,
+										RuleType.UNIQUE_ENTRY, explanation);
+								solutionSteps.add(solutionStep);
+							}
 						}
 					}
 
