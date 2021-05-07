@@ -23,8 +23,7 @@ public class GridClearer {
 		}
 	}
 
-	private static List<Integer> clear(SudokuGrid copyGrid,
-			SudokuGrid sudokuGrid, Difficulty difficulty) {
+	private static List<Integer> clear(SudokuGrid copyGrid, SudokuGrid sudokuGrid, Difficulty difficulty) {
 		List<Integer> filledCells = new ArrayList<>();
 		List<Integer> removedCells = new ArrayList<>();
 
@@ -46,15 +45,13 @@ public class GridClearer {
 			}
 
 			Difficulty prevSolvedDifficulty = copyGrid.getDifficulty();
-			if (!GridSolver.solveGrid(copyGrid, difficulty), false) {
+			if (!GridSolver.solveGrid(copyGrid, difficulty, false)) {
 				copyGrid.setDifficulty(prevSolvedDifficulty);
 				attempt++;
 				filledCells.add(clearedCellValue);
 				removedCells.remove(removedCells.size() - 1);
-				int originalValue = sudokuGrid.getListGrid()
-						.get(clearedCellValue).getNumber();
-				copyGrid.getListGrid().get(clearedCellValue)
-						.setNumber(originalValue);
+				int originalValue = sudokuGrid.getListGrid().get(clearedCellValue).getNumber();
+				copyGrid.getListGrid().get(clearedCellValue).setNumber(originalValue);
 			} else {
 				attempt = 0;
 			}

@@ -15,7 +15,7 @@ public class SudokuMain {
 		SudokuGrid sudokuGrid = new SudokuGrid();
 		GridHelper.generateGrid(sudokuGrid, difficulty);
 		GridHelper.printGrid(sudokuGrid.getArrayGrid());
-		GridSolver.solveGrid(sudokuGrid, difficulty);
+		GridSolver.solveGrid(sudokuGrid, difficulty, true);
 		GridHelper.printGrid(sudokuGrid.getArrayGrid());
 	}
 }

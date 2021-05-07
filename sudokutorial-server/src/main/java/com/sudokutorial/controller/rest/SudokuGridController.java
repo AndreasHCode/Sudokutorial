@@ -83,7 +83,7 @@ public class SudokuGridController {
 	@PostMapping(value = "/solveGrid")
 	public SudokuGrid postSolveGrid(@RequestBody SudokuGrid sudokuGridBack) {
 		SudokuGrid solvedGrid = sudokuGridBack.cloneSudokuGrid();
-		GridSolver.solveGrid(solvedGrid, Difficulty.FIVE);
+		GridSolver.solveGrid(solvedGrid, Difficulty.FIVE, true);
 
 		return solvedGrid;
 	}
