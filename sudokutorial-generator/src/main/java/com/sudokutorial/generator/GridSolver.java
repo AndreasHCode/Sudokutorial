@@ -152,7 +152,7 @@ public class GridSolver {
 	}
 
 	public static void checkUniqueEntry(SudokuGrid sudokuGrid, List<Cell> emptyCells, boolean singleStep,
-			boolean generating) {
+			boolean solving) {
 		Cell[][] arrayGrid = sudokuGrid.getArrayGrid();
 		List<List<Cell>> segmentGrid = sudokuGrid.getSegmentGrid();
 		List<SolutionStep> solutionSteps = sudokuGrid.getSolutionSteps();
@@ -174,7 +174,7 @@ public class GridSolver {
 				}
 
 				if (possibleEntries == 1) {
-					if (generating) {
+					if (solving) {
 						List<Cell> reason = new ArrayList<>();
 						reason.add(aCell);
 
@@ -203,7 +203,7 @@ public class GridSolver {
 				}
 
 				if (possibleEntries == 1) {
-					if (generating) {
+					if (solving) {
 						List<Cell> reason = new ArrayList<>();
 						reason.add(aCell);
 
@@ -232,7 +232,7 @@ public class GridSolver {
 				}
 
 				if (possibleEntries == 1) {
-					if (generating) {
+					if (solving) {
 						List<Cell> reason = new ArrayList<>();
 						reason.add(aCell);
 
