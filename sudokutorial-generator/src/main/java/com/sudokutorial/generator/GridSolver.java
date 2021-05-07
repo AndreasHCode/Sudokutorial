@@ -14,7 +14,7 @@ import com.sudokutorial.generator.items.SudokuGrid;
 
 public class GridSolver {
 
-	public static boolean solveGrid(SudokuGrid sudokuGrid, Difficulty difficulty, boolean generating) {
+	public static boolean solveGrid(SudokuGrid sudokuGrid, Difficulty difficulty, boolean solving) {
 		List<Cell> emptyCells = getEmptyCells(sudokuGrid);
 		int entriesCountStart = sudokuGrid.getEntriesCount();
 		int entriesCountEnd = 0;
@@ -24,13 +24,13 @@ public class GridSolver {
 			boolean removedEntries = entriesCountStart != currentEntries;
 
 			// Try Easy
-			checkExcludeEntries(sudokuGrid, emptyCells, generating);
+			checkExcludeEntries(sudokuGrid, emptyCells, solving);
 			currentEntries = sudokuGrid.getEntriesCount();
 			removedEntries = entriesCountStart != currentEntries;
 
 			// Try Medium
 			if (!removedEntries && difficulty.ordinal() > 0) {
-				checkUniqueEntry(sudokuGrid, emptyCells, false, generating);
+				checkUniqueEntry(sudokuGrid, emptyCells, false, solving);
 				currentEntries = sudokuGrid.getEntriesCount();
 				removedEntries = entriesCountStart != currentEntries;
 				if (removedEntries) {
@@ -42,7 +42,7 @@ public class GridSolver {
 
 			// Try Hard 1
 			if (!removedEntries && difficulty.ordinal() > 1) {
-				checkUniqueRowColumn(sudokuGrid, emptyCells, false, generating);
+				checkUniqueRowColumn(sudokuGrid, emptyCells, false, solving);
 				currentEntries = sudokuGrid.getEntriesCount();
 				removedEntries = entriesCountStart != currentEntries;
 				if (removedEntries) {
@@ -54,7 +54,7 @@ public class GridSolver {
 
 			// Try Hard 2
 			if (!removedEntries && difficulty.ordinal() > 2) {
-				checkEntryCombinations(sudokuGrid, emptyCells, false, generating);
+				checkEntryCombinations(sudokuGrid, emptyCells, false, solving);
 				currentEntries = sudokuGrid.getEntriesCount();
 				removedEntries = entriesCountStart != currentEntries;
 				if (removedEntries) {
@@ -66,9 +66,9 @@ public class GridSolver {
 
 			// Try Small Fishes
 			if (!removedEntries && difficulty.ordinal() > 3) {
-				checkSmallFish(sudokuGrid, emptyCells, 2, false, generating);
-				checkSmallFish(sudokuGrid, emptyCells, 3, false, generating);
-				checkSmallFish(sudokuGrid, emptyCells, 4, false, generating);
+				checkSmallFish(sudokuGrid, emptyCells, 2, false, solving);
+				checkSmallFish(sudokuGrid, emptyCells, 3, false, solving);
+				checkSmallFish(sudokuGrid, emptyCells, 4, false, solving);
 				currentEntries = sudokuGrid.getEntriesCount();
 				removedEntries = entriesCountStart != currentEntries;
 				if (removedEntries) {
@@ -80,7 +80,7 @@ public class GridSolver {
 
 			// Try Remote Pairs
 			if (!removedEntries && difficulty.ordinal() > 3) {
-				checkRemotePairs(sudokuGrid, emptyCells, false, generating);
+				checkRemotePairs(sudokuGrid, emptyCells, false, solving);
 				currentEntries = sudokuGrid.getEntriesCount();
 				removedEntries = entriesCountStart != currentEntries;
 				if (removedEntries) {

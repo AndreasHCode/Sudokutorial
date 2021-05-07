@@ -59,24 +59,18 @@ public class GridHelper {
 					getNeighbouringZeroes(segmentGrid.get(segment));
 
 					for (int i = 0; i < 9; i++) {
-						if (segmentGrid.get(segment).get(i).getEntries()
-								.contains(actualEntry)) {
-							possibleGrid.get(segment).add(
-									segmentGrid.get(segment).get(i));
+						if (segmentGrid.get(segment).get(i).getEntries().contains(actualEntry)) {
+							possibleGrid.get(segment).add(segmentGrid.get(segment).get(i));
 						}
 
-						possibleGrid
-								.get(segment)
-								.sort(Comparator
-										.comparing(Cell::getAdjacentEmptyCells));
+						possibleGrid.get(segment).sort(Comparator.comparing(Cell::getAdjacentEmptyCells));
 
 					}
 				}
 
 				possibleGrid.sort(Comparator.comparing(LinkedList::size));
 
-				while (possibleGrid.size() > 0
-						&& possibleGrid.peek().size() == 0) {
+				while (possibleGrid.size() > 0 && possibleGrid.peek().size() == 0) {
 					possibleGrid.poll();
 				}
 
@@ -86,18 +80,15 @@ public class GridHelper {
 
 				int leastPossibleEntriesCount = 0;
 				for (int n = 0; n < possibleGrid.size(); n++) {
-					if (possibleGrid.peek().size() == possibleGrid.get(n)
-							.size()) {
+					if (possibleGrid.peek().size() == possibleGrid.get(n).size()) {
 						leastPossibleEntriesCount++;
 					}
 				}
 
 				int randomLeastPossibleEntries = (int) (Math.random() * leastPossibleEntriesCount);
 
-				possibleGrid.get(randomLeastPossibleEntries).get(0)
-						.setNumber(actualEntry);
-				GridSolver.checkExcludeEntries(sudokuGrid,
-						GridSolver.getEmptyCells(sudokuGrid));
+				possibleGrid.get(randomLeastPossibleEntries).get(0).setNumber(actualEntry);
+				GridSolver.checkExcludeEntries(sudokuGrid, GridSolver.getEmptyCells(sudokuGrid), false);
 			}
 		}
 		if (sudokuGrid.getZeroesCount() == 0) {
@@ -113,10 +104,8 @@ public class GridHelper {
 			cell.setAdjacentEmptyCells(0);
 
 			for (int k = 0; k < 9; k++) {
-				boolean identicalRow = segmentGrid.get(k).getRow() == cell
-						.getRow();
-				boolean identicalColumn = segmentGrid.get(k).getColumn() == cell
-						.getColumn();
+				boolean identicalRow = segmentGrid.get(k).getRow() == cell.getRow();
+				boolean identicalColumn = segmentGrid.get(k).getColumn() == cell.getColumn();
 				boolean isZero = segmentGrid.get(k).getNumber() == 0;
 
 				if ((identicalRow || identicalColumn) && isZero) {
@@ -148,8 +137,7 @@ public class GridHelper {
 				} else {
 					offsetB = 2;
 				}
-				arrayGrid[i][j] = new Cell((j + offsetA + offsetB) % 9 + 1,
-						row, column);
+				arrayGrid[i][j] = new Cell((j + offsetA + offsetB) % 9 + 1, row, column);
 			}
 		}
 
@@ -344,17 +332,17 @@ public class GridHelper {
 
 		fillArray(sudokuGrid.getArrayGrid(), listGrid);
 		fillSegment(listGrid, sudokuGrid.getSegmentGrid());
-		
+
 		return sudokuGrid;
 	}
-	
+
 	public static String[] gridToString(SudokuGrid sudokuGrid, char zeroIndicator) {
 		StringBuilder initialGrid = new StringBuilder();
 		StringBuilder entryGrid = new StringBuilder();
-		
+
 		for (int i = 0; i < sudokuGrid.getListGrid().size(); i++) {
 			Cell cell = sudokuGrid.getListGrid().get(i);
-			
+
 			if (cell.getNumber() == 0) {
 				initialGrid.append(zeroIndicator);
 				entryGrid.append(zeroIndicator);
@@ -368,8 +356,8 @@ public class GridHelper {
 				}
 			}
 		}
-		
-		String[] stringGrids = {initialGrid.toString(), entryGrid.toString()};
+
+		String[] stringGrids = { initialGrid.toString(), entryGrid.toString() };
 		return stringGrids;
 	}
 
@@ -389,18 +377,15 @@ public class GridHelper {
 		}
 	}
 
-	public static void fillSegment(List<Cell> listGrid,
-			List<List<Cell>> segmentGrid) {
+	public static void fillSegment(List<Cell> listGrid, List<List<Cell>> segmentGrid) {
 		for (int m = 0; m < 3; m++) {
 			int offset = 0;
 
 			for (int l = 0; l < 3; l++) {
 				for (int j = 0; j < 3; j++) {
 					for (int k = 0; k < 3; k++) {
-						segmentGrid.get(m * 3 + l).add(
-								listGrid.get(j * 9 + offset + k + m * 27));
-						listGrid.get(j * 9 + offset + k + m * 27).setSegment(
-								m * 3 + l);
+						segmentGrid.get(m * 3 + l).add(listGrid.get(j * 9 + offset + k + m * 27));
+						listGrid.get(j * 9 + offset + k + m * 27).setSegment(m * 3 + l);
 					}
 				}
 
@@ -409,7 +394,7 @@ public class GridHelper {
 
 		}
 	}
-	
+
 	public static void setStartingCells(List<Cell> listGrid) {
 		for (Cell aCell : listGrid) {
 			if (aCell.getNumber() != 0) {
@@ -462,9 +447,7 @@ public class GridHelper {
 			System.out.println("===NEW BLOCK:" + (i + 1) + "===");
 			for (int j = 0; j < 3; j++) {
 				for (int k = 0; k < 3; k++) {
-					System.out.print(segmentGrid.get(i).get(j * 3 + k)
-							.getNumber()
-							+ " ");
+					System.out.print(segmentGrid.get(i).get(j * 3 + k).getNumber() + " ");
 				}
 				System.out.println();
 			}

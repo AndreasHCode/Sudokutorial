@@ -8,8 +8,7 @@ import com.sudokutorial.generator.items.SudokuGrid;
 
 public class GridClearer {
 
-	public static void clearIncrementally(SudokuGrid sudokuGrid,
-			Difficulty difficulty) {
+	public static void clearIncrementally(SudokuGrid sudokuGrid, Difficulty difficulty) {
 		SudokuGrid copyGrid;
 		List<Integer> removedCells;
 
@@ -47,7 +46,7 @@ public class GridClearer {
 			}
 
 			Difficulty prevSolvedDifficulty = copyGrid.getDifficulty();
-			if (!GridSolver.solveGrid(copyGrid, difficulty)) {
+			if (!GridSolver.solveGrid(copyGrid, difficulty), false) {
 				copyGrid.setDifficulty(prevSolvedDifficulty);
 				attempt++;
 				filledCells.add(clearedCellValue);
