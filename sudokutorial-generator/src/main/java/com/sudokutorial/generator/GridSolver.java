@@ -127,7 +127,10 @@ public class GridSolver {
 
 		for (Cell aCell : emptyCells) {
 
-			// FIXME rework solutionstepslis, remove list during generation
+			// TODO rework solutionstepslist, remove list during generation
+			// TODO rework singlestep
+			// TODO add more solutiondesc
+
 			int row = aCell.getRow();
 			int col = aCell.getColumn();
 			int segment = aCell.getSegment();
