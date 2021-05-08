@@ -13,14 +13,14 @@ import com.sudokutorial.service.PlayerService;
 
 @Controller
 public class SudokuController {
-	
+
 	@Autowired
 	PlayerService playerService;
-	
-	@RequestMapping (value = "/sudoku") 
+
+	@RequestMapping(value = "/sudoku")
 	public ModelAndView sudoku(ModelAndView modelAndView) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
+
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			String email = auth.getName();
 			Player player = playerService.getPlayerByEmail(email);
