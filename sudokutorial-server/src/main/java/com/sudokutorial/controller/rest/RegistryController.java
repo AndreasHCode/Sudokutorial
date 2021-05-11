@@ -35,8 +35,6 @@ public class RegistryController {
 	@Autowired
 	private PlayerService playerService;
 
-	// TODO - add token verification
-
 	@PutMapping(value = "/registerplayer")
 	public ResponseEntity<?> registerplayerPut(HttpServletRequest request, @RequestBody Player player) {
 		logger.info("Saving new Player: " + player.getFirstname());
