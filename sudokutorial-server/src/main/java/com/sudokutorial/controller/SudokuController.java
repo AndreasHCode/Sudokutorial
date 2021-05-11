@@ -20,6 +20,7 @@ public class SudokuController {
 	@RequestMapping(value = "/sudoku")
 	public ModelAndView sudoku(ModelAndView modelAndView) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		// TODO make token verification requirement for safe
 
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			String email = auth.getName();
